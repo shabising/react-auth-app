@@ -36,27 +36,29 @@ export default function Login() {
   });
 
   return (
-    <div>
+    <div style={{ maxWidth: "400px", margin: "0 auto", padding: "20px" }}>
       <h2>Daxil ol</h2>
       <form onSubmit={handleSubmit((d) => mutation.mutate(d))}>
-        <div>
+        <div style={{ marginBottom: "12px" }}>
           <label htmlFor="email">Email</label>
           <input
             id="email"
             {...register("email")}
             placeholder="Email"
             type="email"
+            style={{ display: "block", width: "100%", padding: "8px", marginTop: "4px" }}
           />
           {errors.email && <p style={{ color: "red" }}>{errors.email.message}</p>}
         </div>
-        <div>
+        <div style={{ marginBottom: "12px" }}>
           <label htmlFor="password">Şifrə</label>
-          <div style={{ display: "flex", gap: "8px" }}>
+          <div style={{ display: "flex", gap: "8px", marginTop: "4px" }}>
             <input
               id="password"
               {...register("password")}
               type={showPassword ? "text" : "password"}
               placeholder="Şifrə"
+              style={{ flex: 1, padding: "8px" }}
             />
             <button
               type="button"
@@ -68,7 +70,7 @@ export default function Login() {
           </div>
           {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
         </div>
-        <button type="submit" disabled={mutation.isPending}>
+        <button type="submit" disabled={mutation.isPending} style={{ width: "100%", padding: "8px" }}>
           {mutation.isPending ? "Giriş edilir..." : "Daxil ol"}
         </button>
       </form>
