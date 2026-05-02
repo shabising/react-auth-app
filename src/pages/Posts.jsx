@@ -16,7 +16,7 @@ export default function Posts() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const { data, isLoading, isError } = useQuery({
+  const { data } = useQuery({
     queryKey: QUERY_KEYS.posts,
     queryFn: () => api.get("/api/posts/my-posts").then((r) => r.data),
   });
@@ -37,13 +37,10 @@ export default function Posts() {
     setShowForm(false);
   };
 
-  if (isLoading) return <p>Yüklənir...</p>;
-  if (isError) return <p className="error-text">Xəta baş verdi, yenidən cəhd edin.</p>;
-
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-        <h2>Mənim Postlarım</h2>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
+        <h2 style={{ fontSize: "24px" }}>Mənim Postlarım 📝</h2>
         <button className="btn-primary" onClick={() => setShowForm(!showForm)}>
           {showForm ? "İmtina et" : "+ Yeni Post"}
         </button>
@@ -74,32 +71,35 @@ export default function Posts() {
         </form>
       )}
 
-      {allPosts.length === 0 && (
-        <div className="card" style={{ textAlign: "center", color: "#aaa" }}>
-          <p>Heç bir post yoxdur. Yeni post əlavə et!</p>
+      {allPosts.length === 0 ? (
+        <div className="card" style={{ textAlign: "center", padding: "48px 20px" }}>
+          <p style={{ fontSize: "40px" }}>📭</p>
+          <h3 style={{ margin: "16px 0 8px", color: "#1a1a2e" }}>Hələ heç bir post yoxdur</h3>
+          <p style={{ color: "#888", marginBottom: "20px" }}>İlk postunu əlavə et!</p>
+          <button className="btn-primary" onClick={() => setShowForm(true)}>+ Yeni Post</button>
         </div>
-      )}
-
-      {allPosts.map((post) => (
-        <div key={post.id} className="post-card">
-          <h3><Link to={`/myposts/${post.id}`}>{post.title}</Link></h3>
-          <p>{post.content}</p>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <small>{new Date(post.createdAt).toLocaleDateString()}</small>
-            {localPosts.find((p) => p.id === post.id) && (
-              <button
-                className="delete-btn"
-                onClick={() => {
-                  deletePost(post.id);
-                  toast.success("Post silindi!");
-                }}
-              >
-                Sil
-              </button>
-            )}
+      ) : (
+        allPosts.map((post) => (
+          <div key={post.id} className="post-card">
+            <h3><Link to={`/myposts/${post.id}`}>{post.title}</Link></h3>
+            <p>{post.content}</p>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "8px" }}>
+              <small>{new Date(post.createdAt).toLocaleDateString("az-AZ")}</small>
+              {localPosts.find((p) => p.id === post.id) && (
+                <button
+                  className="delete-btn"
+                  onClick={() => {
+                    deletePost(post.id);
+                    toast.success("Post silindi!");
+                  }}
+                >
+                  Sil
+                </button>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 }
