@@ -3,18 +3,53 @@ import { QUERY_KEYS } from "../hooks/useQueryKeys";
 import api from "../api/axiosInstance";
 
 export default function About() {
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: QUERY_KEYS.about,
     queryFn: () => api.get("/api/about").then((r) => r.data),
   });
 
-  if (isLoading) return <p>Yüklənir...</p>;
-  if (isError) return <p>Xəta baş verdi, yenidən cəhd edin.</p>;
+  if (isLoading) return (
+    <div className="card" style={{ textAlign: "center", padding: "60px 20px" }}>
+      <div className="spinner" />
+      <p style={{ marginTop: "16px", color: "#888" }}>Yüklənir...</p>
+    </div>
+  );
+
+  if (isError) return (
+    <div className="card" style={{ textAlign: "center", padding: "60px 20px" }}>
+      <p style={{ fontSize: "40px" }}>⚠️</p>
+      <h2 style={{ marginTop: "12px", marginBottom: "8px" }}>Xəta baş verdi</h2>
+      <p style={{ color: "#888", marginBottom: "24px" }}>Server cavab vermir.</p>
+      <button className="btn-primary" onClick={() => refetch()}>Yenidən cəhd et</button>
+    </div>
+  );
 
   return (
     <div>
-      <h1>Haqqında</h1>
-      <p>{data?.message}</p>
+      <div className="card" style={{ marginBottom: "24px" }}>
+        <h1 style={{ fontSize: "28px", marginBottom: "8px" }}>Haqqımızda 🏢</h1>
+        <p style={{ color: "#666", fontSize: "16px", lineHeight: "1.7" }}>
+          {data?.message || "Bu layihə React və Node.js ilə hazırlanmış tam autentifikasiya sistemidir."}
+        </p>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px" }}>
+        <div className="card" style={{ textAlign: "center" }}>
+          <p style={{ fontSize: "32px" }}>⚛️</p>
+          <h3 style={{ margin: "12px 0 6px" }}>React 19</h3>
+          <p style={{ color: "#888", fontSize: "14px" }}>Müasir frontend texnologiyası ilə hazırlanıb.</p>
+        </div>
+        <div className="card" style={{ textAlign: "center" }}>
+          <p style={{ fontSize: "32px" }}>🛡️</p>
+          <h3 style={{ margin: "12px 0 6px" }}>JWT Auth</h3>
+          <p style={{ color: "#888", fontSize: "14px" }}>Təhlükəsiz token əsaslı autentifikasiya.</p>
+        </div>
+        <div className="card" style={{ textAlign: "center" }}>
+          <p style={{ fontSize: "32px" }}>🚀</p>
+          <h3 style={{ margin: "12px 0 6px" }}>Express.js</h3>
+          <p style={{ color: "#888", fontSize: "14px" }}>Güclü REST API backend ilə işləyir.</p>
+        </div>
+      </div>
     </div>
   );
 }
