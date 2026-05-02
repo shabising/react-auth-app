@@ -3,26 +3,10 @@ import { QUERY_KEYS } from "../hooks/useQueryKeys";
 import api from "../api/axiosInstance";
 
 export default function About() {
-  const { data, isLoading, isError, refetch } = useQuery({
+  const { data } = useQuery({
     queryKey: QUERY_KEYS.about,
     queryFn: () => api.get("/api/about").then((r) => r.data),
   });
-
-  if (isLoading) return (
-    <div className="card" style={{ textAlign: "center", padding: "60px 20px" }}>
-      <div className="spinner" />
-      <p style={{ marginTop: "16px", color: "#888" }}>Yüklənir...</p>
-    </div>
-  );
-
-  if (isError) return (
-    <div className="card" style={{ textAlign: "center", padding: "60px 20px" }}>
-      <p style={{ fontSize: "40px" }}>⚠️</p>
-      <h2 style={{ marginTop: "12px", marginBottom: "8px" }}>Xəta baş verdi</h2>
-      <p style={{ color: "#888", marginBottom: "24px" }}>Server cavab vermir.</p>
-      <button className="btn-primary" onClick={() => refetch()}>Yenidən cəhd et</button>
-    </div>
-  );
 
   return (
     <div>
