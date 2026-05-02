@@ -2,7 +2,7 @@ import axios from "axios";
 import { useAuthStore } from "../store/authStore";
 
 const api = axios.create({
-  baseURL: "https://front-task-y34u.onrender.com",
+  baseURL: "",
 });
 
 api.interceptors.request.use(

@@ -9,9 +9,12 @@ export default function MyPostDetail() {
   const post = getPostById(id);
 
   if (!post) return (
-    <div>
-      <p>Post tapılmadı!</p>
-      <Link to="/posts">← Geri qayıt</Link>
+    <div className="card" style={{ textAlign: "center", padding: "48px 20px" }}>
+      <p style={{ fontSize: "40px" }}>📭</p>
+      <h3 style={{ margin: "16px 0 8px" }}>Post tapılmadı</h3>
+      <Link to="/posts" className="btn-primary" style={{ display: "inline-block", marginTop: "8px" }}>
+        ← Geri qayıt
+      </Link>
     </div>
   );
 
@@ -22,16 +25,15 @@ export default function MyPostDetail() {
   };
 
   return (
-    <div>
-      <Link to="/posts">← Geri qayıt</Link>
-      <h2>{post.title}</h2>
-      <p>{post.content}</p>
-      <small>{new Date(post.createdAt).toLocaleDateString()}</small>
+    <div className="card">
+      <Link to="/posts" style={{ color: "#824D69", fontSize: "14px", textDecoration: "none" }}>
+        ← Geri qayıt
+      </Link>
+      <h2 style={{ margin: "16px 0 12px", fontSize: "24px" }}>{post.title}</h2>
+      <p style={{ color: "#522959", lineHeight: "1.7", marginBottom: "16px" }}>{post.content}</p>
+      <small style={{ color: "#824D69" }}>{new Date(post.createdAt).toLocaleDateString("az-AZ")}</small>
       <br />
-      <button
-        onClick={handleDelete}
-        style={{ color: "red", marginTop: "16px" }}
-      >
+      <button className="delete-btn" onClick={handleDelete} style={{ marginTop: "20px" }}>
         Postu sil
       </button>
     </div>

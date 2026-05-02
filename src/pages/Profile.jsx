@@ -3,20 +3,25 @@ import { QUERY_KEYS } from "../hooks/useQueryKeys";
 import api from "../api/axiosInstance";
 
 export default function Profile() {
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: QUERY_KEYS.profile,
     queryFn: () => api.get("/api/user/profile").then((r) => r.data),
   });
 
-  if (isLoading) return <p>Yüklənir...</p>;
-  if (isError) return <p>{error?.response?.data?.message || "Xəta baş verdi, yenidən cəhd edin."}</p>;
-
   return (
-    <div>
-      <h2>Profil</h2>
-      <p><strong>Ad:</strong> {data?.user?.name}</p>
-      <p><strong>Email:</strong> {data?.user?.email}</p>
-      <p><strong>ID:</strong> {data?.user?.id}</p>
+    <div className="card">
+      <h2 style={{ fontSize: "24px", marginBottom: "24px" }}>Profil 👤</h2>
+      {isLoading ? (
+        <div style={{ textAlign: "center", padding: "20px" }}>
+          <div className="spinner" />
+        </div>
+      ) : (
+        <div className="profile-info">
+          <p><strong>Ad:</strong> {data?.user?.name || "—"}</p>
+          <p><strong>E-poçt:</strong> {data?.user?.email || "—"}</p>
+          <p><strong>ID:</strong> {data?.user?.id || "—"}</p>
+        </div>
+      )}
     </div>
   );
 }
