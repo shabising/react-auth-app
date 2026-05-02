@@ -47,6 +47,9 @@ body {
   padding: 6px 12px;
   border-radius: 8px;
   transition: background 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .nav-links a:hover {
@@ -95,6 +98,9 @@ body {
   cursor: pointer;
   font-size: 14px;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .logout-btn:hover {
