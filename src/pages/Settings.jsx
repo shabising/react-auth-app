@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthStore } from "../store/authStore";
 import { QUERY_KEYS } from "../hooks/useQueryKeys";
 import api from "../api/axiosInstance";
+import toast from "react-hot-toast";
 
 const schema = z.object({
   name: z.string().min(2, "Ad minimum 2 simvol olmalıdır"),
@@ -15,6 +16,7 @@ export default function Settings() {
   const queryClient = useQueryClient();
 
   const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: zodResolver(schema),
     defaultValues: {
       name: user?.name || "",
     },
@@ -23,8 +25,6 @@ export default function Settings() {
   const mutation = useMutation({
     mutationFn: (data) =>
       api.put("/api/user/settings", data).then((r) => r.data),
-
-    // ✅ Optimistic Update
     onMutate: async (newData) => {
       await queryClient.cancelQueries(QUERY_KEYS.profile);
       const prev = queryClient.getQueryData(QUERY_KEYS.profile);
@@ -36,9 +36,13 @@ export default function Settings() {
     },
     onError: (err, newData, context) => {
       queryClient.setQueryData(QUERY_KEYS.profile, context.prev);
+      toast.error(err?.response?.data?.message || "Xəta baş verdi!");
     },
     onSettled: () => {
       queryClient.invalidateQueries(QUERY_KEYS.profile);
+    },
+    onSuccess: () => {
+      toast.success("Tənzimləmələr yeniləndi! ✅");
     },
   });
 
@@ -58,8 +62,6 @@ export default function Settings() {
         <button type="submit" disabled={mutation.isPending}>
           {mutation.isPending ? "Saxlanılır..." : "Yadda saxla"}
         </button>
-        {mutation.isSuccess && <p style={{ color: "green" }}>Uğurla yeniləndi! ✅</p>}
-        {mutation.isError && <p style={{ color: "red" }}>Xəta baş verdi!</p>}
       </form>
     </div>
   );

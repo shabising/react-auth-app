@@ -28,8 +28,8 @@ export default function Register() {
       toast.success("Qeydiyyat uğurla tamamlandı!");
       navigate("/login");
     },
-    onError: () => {
-      toast.error("Qeydiyyat zamanı xəta baş verdi!");
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Qeydiyyat zamanı xəta baş verdi!");
     },
   });
 

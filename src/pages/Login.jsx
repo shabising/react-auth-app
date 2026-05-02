@@ -30,8 +30,8 @@ export default function Login() {
       toast.success("Uğurla daxil oldunuz!");
       navigate("/profile");
     },
-    onError: () => {
-      toast.error("Email və ya şifrə yanlışdır!");
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Email və ya şifrə yanlışdır!");
     },
   });
 

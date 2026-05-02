@@ -1,17 +1,28 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { useAuthStore } from "../store/authStore";
 import { usePostStore } from "../store/postStore";
+import { QUERY_KEYS } from "../hooks/useQueryKeys";
+import api from "../api/axiosInstance";
 import toast from "react-hot-toast";
 
 export default function Posts() {
   const user = useAuthStore((s) => s.user);
   const { getUserPosts, addPost, deletePost } = usePostStore();
-  const posts = getUserPosts(user?.id);
+  const localPosts = getUserPosts(user?.id);
 
   const [showForm, setShowForm] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: QUERY_KEYS.posts,
+    queryFn: () => api.get("/api/posts/my-posts").then((r) => r.data),
+  });
+
+  const apiPosts = data?.posts || [];
+  const allPosts = [...localPosts, ...apiPosts];
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,6 +36,9 @@ export default function Posts() {
     setContent("");
     setShowForm(false);
   };
+
+  if (isLoading) return <p>Yüklənir...</p>;
+  if (isError) return <p>Xəta baş verdi, yenidən cəhd edin.</p>;
 
   return (
     <div>
@@ -62,9 +76,9 @@ export default function Posts() {
         </form>
       )}
 
-      {posts.length === 0 && <p>Heç bir post yoxdur. Yeni post əlavə et!</p>}
+      {allPosts.length === 0 && <p>Heç bir post yoxdur. Yeni post əlavə et!</p>}
 
-      {posts.map((post) => (
+      {allPosts.map((post) => (
         <div key={post.id} style={{ borderBottom: "1px solid #ccc", marginBottom: "10px", padding: "10px" }}>
           <Link to={`/myposts/${post.id}`}>
             <h3>{post.title}</h3>
@@ -72,15 +86,17 @@ export default function Posts() {
           <p>{post.content}</p>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <small>{new Date(post.createdAt).toLocaleDateString()}</small>
-            <button
-              onClick={() => {
-                deletePost(post.id);
-                toast.success("Post silindi!");
-              }}
-              style={{ color: "red" }}
-            >
-              Sil
-            </button>
+            {localPosts.find((p) => p.id === post.id) && (
+              <button
+                onClick={() => {
+                  deletePost(post.id);
+                  toast.success("Post silindi!");
+                }}
+                style={{ color: "red" }}
+              >
+                Sil
+              </button>
+            )}
           </div>
         </div>
       ))}

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useAuthStore } from "../store/authStore";
 
 const api = axios.create({
-  baseURL: "",
+  baseURL: "https://front-task-y34u.onrender.com",
 });
 
 api.interceptors.request.use(
@@ -16,7 +16,6 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor — 401-də logout edir
 api.interceptors.response.use(
   (response) => response,
   (error) => {

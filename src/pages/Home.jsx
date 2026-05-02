@@ -3,12 +3,13 @@ import { QUERY_KEYS } from "../hooks/useQueryKeys";
 import api from "../api/axiosInstance";
 
 export default function Home() {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: QUERY_KEYS.home,
     queryFn: () => api.get("/api/home").then((r) => r.data),
   });
 
   if (isLoading) return <p>Yüklənir...</p>;
+  if (isError) return <p>Xəta baş verdi, yenidən cəhd edin.</p>;
 
   return (
     <div>

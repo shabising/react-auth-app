@@ -41,8 +41,6 @@ const router = createBrowserRouter([
       { path: "/settings", element: <ProtectedRoute><Settings /></ProtectedRoute> },
       { path: "/myposts/:id", element: <ProtectedRoute><MyPostDetail /></ProtectedRoute> },
       { path: "*", element: <NotFound /> },
-
-      { path: "*", element: <NotFound /> },
     ],
   },
 ]);
