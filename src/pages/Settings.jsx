@@ -8,7 +8,7 @@ import api from "../api/axiosInstance";
 import toast from "react-hot-toast";
 
 const schema = z.object({
-  name: z.string().min(2, "Ad minimum 2 simvol olmalıdır"),
+  name: z.string().min(2, "Name must be at least 2 characters"),
 });
 
 export default function Settings() {
@@ -33,28 +33,28 @@ export default function Settings() {
     },
     onError: (err, newData, context) => {
       queryClient.setQueryData(QUERY_KEYS.profile, context.prev);
-      toast.error(err?.response?.data?.message || "Xəta baş verdi!");
+      toast.error(err?.response?.data?.message || "An error occurred!");
     },
     onSettled: () => {
       queryClient.invalidateQueries(QUERY_KEYS.profile);
     },
     onSuccess: () => {
-      toast.success("Tənzimləmələr yeniləndi! ✅");
+      toast.success("Settings updated successfully! ✅");
     },
   });
 
   return (
     <div style={{ maxWidth: "420px", margin: "0 auto" }}>
       <div className="card">
-        <h2 style={{ fontSize: "24px", marginBottom: "24px" }}>Tənzimləmələr ⚙️</h2>
+        <h2 style={{ fontSize: "24px", marginBottom: "24px" }}>Settings ⚙️</h2>
         <form onSubmit={handleSubmit((d) => mutation.mutate(d))}>
           <div style={{ marginBottom: "16px" }}>
-            <label htmlFor="name">Yeni ad</label>
-            <input id="name" {...register("name")} placeholder="Adınızı daxil edin" />
+            <label htmlFor="name">New Name</label>
+            <input id="name" {...register("name")} placeholder="Enter your name" />
             {errors.name && <p className="error-text">{errors.name.message}</p>}
           </div>
           <button type="submit" disabled={mutation.isPending}>
-            {mutation.isPending ? "Saxlanılır..." : "Yadda saxla"}
+            {mutation.isPending ? "Saving..." : "Save"}
           </button>
         </form>
       </div>

@@ -27,11 +27,11 @@ export default function Posts() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!title.trim() || !content.trim()) {
-      toast.error("Başlıq və məzmun boş ola bilməz!");
+      toast.error("Title and content cannot be empty!");
       return;
     }
     addPost(title, content, user?.id);
-    toast.success("Post uğurla əlavə edildi!");
+    toast.success("Post added successfully!");
     setTitle("");
     setContent("");
     setShowForm(false);
@@ -40,43 +40,32 @@ export default function Posts() {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
-        <h2 style={{ fontSize: "24px" }}>Mənim Postlarım 📝</h2>
+        <h2 style={{ fontSize: "24px" }}>My Posts 📝</h2>
         <button className="btn-primary" onClick={() => setShowForm(!showForm)}>
-          {showForm ? "İmtina et" : "+ Yeni Post"}
+          {showForm ? "Cancel" : "+ New Post"}
         </button>
       </div>
 
       {showForm && (
         <form onSubmit={handleSubmit} style={{ marginBottom: "24px" }}>
           <div style={{ marginBottom: "12px" }}>
-            <label htmlFor="title">Başlıq</label>
-            <input
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Başlıq daxil et"
-            />
+            <label htmlFor="title">Title</label>
+            <input id="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Enter title" />
           </div>
           <div style={{ marginBottom: "12px" }}>
-            <label htmlFor="content">Məzmun</label>
-            <textarea
-              id="content"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="Məzmun daxil et"
-              rows={4}
-            />
+            <label htmlFor="content">Content</label>
+            <textarea id="content" value={content} onChange={(e) => setContent(e.target.value)} placeholder="Enter content" rows={4} />
           </div>
-          <button type="submit">Paylaş</button>
+          <button type="submit">Publish</button>
         </form>
       )}
 
       {allPosts.length === 0 ? (
         <div className="card" style={{ textAlign: "center", padding: "48px 20px" }}>
           <p style={{ fontSize: "40px" }}>📭</p>
-          <h3 style={{ margin: "16px 0 8px", color: "#1a1a2e" }}>Hələ heç bir post yoxdur</h3>
-          <p style={{ color: "#888", marginBottom: "20px" }}>İlk postunu əlavə et!</p>
-          <button className="btn-primary" onClick={() => setShowForm(true)}>+ Yeni Post</button>
+          <h3 style={{ margin: "16px 0 8px" }}>No posts yet</h3>
+          <p style={{ color: "#888", marginBottom: "20px" }}>Add your first post!</p>
+          <button className="btn-primary" onClick={() => setShowForm(true)}>+ New Post</button>
         </div>
       ) : (
         allPosts.map((post) => (
@@ -84,16 +73,10 @@ export default function Posts() {
             <h3><Link to={`/myposts/${post.id}`}>{post.title}</Link></h3>
             <p>{post.content}</p>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "8px" }}>
-              <small>{new Date(post.createdAt).toLocaleDateString("az-AZ")}</small>
+              <small>{new Date(post.createdAt).toLocaleDateString("en-US")}</small>
               {localPosts.find((p) => p.id === post.id) && (
-                <button
-                  className="delete-btn"
-                  onClick={() => {
-                    deletePost(post.id);
-                    toast.success("Post silindi!");
-                  }}
-                >
-                  Sil
+                <button className="delete-btn" onClick={() => { deletePost(post.id); toast.success("Post deleted!"); }}>
+                  Delete
                 </button>
               )}
             </div>

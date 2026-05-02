@@ -4,9 +4,9 @@ export default function NotFound() {
   return (
     <div className="not-found">
       <h1>404</h1>
-      <p>Axtardığın səhifə tapılmadı.</p>
+      <p>The page you are looking for was not found.</p>
       <Link to="/" className="btn-primary" style={{ display: "inline-block", marginTop: "8px" }}>
-        Ana səhifəyə qayıt
+        Back to Home
       </Link>
     </div>
   );

@@ -10,15 +10,15 @@ export default function Profile() {
 
   return (
     <div className="card">
-      <h2 style={{ fontSize: "24px", marginBottom: "24px" }}>Profil 👤</h2>
+      <h2 style={{ fontSize: "24px", marginBottom: "24px" }}>Profile 👤</h2>
       {isLoading ? (
         <div style={{ textAlign: "center", padding: "20px" }}>
           <div className="spinner" />
         </div>
       ) : (
         <div className="profile-info">
-          <p><strong>Ad:</strong> {data?.user?.name || "—"}</p>
-          <p><strong>E-poçt:</strong> {data?.user?.email || "—"}</p>
+          <p><strong>Name:</strong> {data?.user?.name || "—"}</p>
+          <p><strong>Email:</strong> {data?.user?.email || "—"}</p>
           <p><strong>ID:</strong> {data?.user?.id || "—"}</p>
         </div>
       )}
