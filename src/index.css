@@ -11,40 +11,107 @@ body {
   min-height: 100vh;
 }
 
-/* ── NAV ── */
-nav {
-  background-color: #16213e;
-  padding: 14px 32px;
+/* ── NAVBAR ── */
+.navbar {
+  background: #16213e;
+  padding: 0 32px;
   display: flex;
   align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
+  height: 60px;
+  gap: 4px;
 }
 
-nav a {
-  color: #c8cde8;
+.navbar .logo {
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  margin-right: auto;
+  letter-spacing: -0.3px;
   text-decoration: none;
-  font-size: 14px;
-  transition: color 0.2s;
 }
 
-nav a:hover {
+.navbar .logo span {
   color: #a78bfa;
 }
 
-nav button {
-  background-color: #ef4444;
-  color: white;
-  border: none;
-  padding: 6px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: background 0.2s;
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
-nav button:hover {
-  background-color: #dc2626;
+.nav-links a {
+  color: #c8cde8;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-links a:hover {
+  background: rgba(167, 139, 250, 0.12);
+  color: #a78bfa;
+}
+
+.nav-links a.active {
+  background: rgba(167, 139, 250, 0.15);
+  color: #a78bfa;
+}
+
+.nav-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 8px;
+}
+
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(167, 139, 250, 0.2);
+  border: 1.5px solid rgba(167, 139, 250, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a78bfa;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.logout-btn {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 0.5px solid rgba(239, 68, 68, 0.3);
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.logout-btn:hover {
+  background: #ef4444;
+  color: white;
+  border-color: #ef4444;
+}
+
+.register-btn {
+  background: #7c6fcd !important;
+  color: white !important;
+  padding: 6px 14px !important;
+  border-radius: 8px;
+}
+
+.register-btn:hover {
+  background: #6356b8 !important;
 }
 
 /* ── LAYOUT ── */
