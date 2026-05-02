@@ -15,7 +15,15 @@ import Settings from "./pages/Settings";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 dəqiqə cache
+      retry: 1, // xəta olsa 1 dəfə yenidən cəhd et
+      refetchOnWindowFocus: false, // tab dəyişəndə yenidən fetch etmə
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {

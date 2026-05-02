@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -5,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import api from "../api/axiosInstance";
+import toast from "react-hot-toast";
 
 const schema = z.object({
   email: z.string().email("Düzgün email daxil et"),
@@ -13,7 +15,8 @@ const schema = z.object({
 
 export default function Login() {
   const navigate = useNavigate();
-  const setAuth = useAuthStore((s) => s.setAuth);
+  const login = useAuthStore((s) => s.login);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(schema),
@@ -23,8 +26,12 @@ export default function Login() {
     mutationFn: (data) =>
       api.post("/api/auth/login", data).then((r) => r.data),
     onSuccess: (data) => {
-      setAuth(data.user, data.token);
+      login(data.user, data.token);
+      toast.success("Uğurla daxil oldunuz!");
       navigate("/profile");
+    },
+    onError: () => {
+      toast.error("Email və ya şifrə yanlışdır!");
     },
   });
 
@@ -33,17 +40,37 @@ export default function Login() {
       <h2>Daxil ol</h2>
       <form onSubmit={handleSubmit((d) => mutation.mutate(d))}>
         <div>
-          <input {...register("email")} placeholder="Email" />
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            {...register("email")}
+            placeholder="Email"
+            type="email"
+          />
           {errors.email && <p style={{ color: "red" }}>{errors.email.message}</p>}
         </div>
         <div>
-          <input {...register("password")} type="password" placeholder="Şifrə" />
+          <label htmlFor="password">Şifrə</label>
+          <div style={{ display: "flex", gap: "8px" }}>
+            <input
+              id="password"
+              {...register("password")}
+              type={showPassword ? "text" : "password"}
+              placeholder="Şifrə"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label="Şifrəni göstər/gizlət"
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </button>
+          </div>
           {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
         </div>
         <button type="submit" disabled={mutation.isPending}>
           {mutation.isPending ? "Giriş edilir..." : "Daxil ol"}
         </button>
-        {mutation.isError && <p style={{ color: "red" }}>Xəta baş verdi!</p>}
       </form>
     </div>
   );

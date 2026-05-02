@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axiosInstance";
+import toast from "react-hot-toast";
 
 const schema = z.object({
   name: z.string().min(2, "Ad minimum 2 simvol olmalıdır"),
@@ -13,14 +15,22 @@ const schema = z.object({
 
 export default function Register() {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(schema),
+    mode: "onChange",
   });
 
   const mutation = useMutation({
     mutationFn: (data) => api.post("/api/auth/register", data).then((r) => r.data),
-    onSuccess: () => navigate("/login"),
+    onSuccess: () => {
+      toast.success("Qeydiyyat uğurla tamamlandı!");
+      navigate("/login");
+    },
+    onError: () => {
+      toast.error("Qeydiyyat zamanı xəta baş verdi!");
+    },
   });
 
   return (
@@ -28,21 +38,46 @@ export default function Register() {
       <h2>Qeydiyyat</h2>
       <form onSubmit={handleSubmit((d) => mutation.mutate(d))}>
         <div>
-          <input {...register("name")} placeholder="Ad Soyad" />
+          <label htmlFor="name">Ad Soyad</label>
+          <input
+            id="name"
+            {...register("name")}
+            placeholder="Ad Soyad"
+          />
           {errors.name && <p style={{ color: "red" }}>{errors.name.message}</p>}
         </div>
         <div>
-          <input {...register("email")} placeholder="Email" />
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            {...register("email")}
+            placeholder="Email"
+            type="email"
+          />
           {errors.email && <p style={{ color: "red" }}>{errors.email.message}</p>}
         </div>
         <div>
-          <input {...register("password")} type="password" placeholder="Şifrə" />
+          <label htmlFor="password">Şifrə</label>
+          <div style={{ display: "flex", gap: "8px" }}>
+            <input
+              id="password"
+              {...register("password")}
+              type={showPassword ? "text" : "password"}
+              placeholder="Şifrə"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label="Şifrəni göstər/gizlət"
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </button>
+          </div>
           {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
         </div>
         <button type="submit" disabled={mutation.isPending}>
           {mutation.isPending ? "Göndərilir..." : "Qeydiyyat"}
         </button>
-        {mutation.isError && <p style={{ color: "red" }}>Xəta baş verdi!</p>}
       </form>
     </div>
   );

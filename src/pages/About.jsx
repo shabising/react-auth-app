@@ -1,8 +1,19 @@
+import { useQuery } from "@tanstack/react-query";
+import { QUERY_KEYS } from "../hooks/useQueryKeys";
+import api from "../api/axiosInstance";
+
 export default function About() {
+  const { data, isLoading } = useQuery({
+    queryKey: QUERY_KEYS.about,
+    queryFn: () => api.get("/api/about").then((r) => r.data),
+  });
+
+  if (isLoading) return <p>Yüklənir...</p>;
+
   return (
     <div>
       <h1>Haqqında</h1>
-      <p>Bu səhifə hamıya açıqdır.</p>
+      <p>{data?.message}</p>
     </div>
   );
 }

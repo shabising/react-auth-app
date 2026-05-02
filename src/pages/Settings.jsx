@@ -3,6 +3,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthStore } from "../store/authStore";
+import { QUERY_KEYS } from "../hooks/useQueryKeys";
 import api from "../api/axiosInstance";
 
 const schema = z.object({
@@ -25,19 +26,19 @@ export default function Settings() {
 
     // ✅ Optimistic Update
     onMutate: async (newData) => {
-      await queryClient.cancelQueries(["profile"]);
-      const prev = queryClient.getQueryData(["profile"]);
-      queryClient.setQueryData(["profile"], (old) => ({
+      await queryClient.cancelQueries(QUERY_KEYS.profile);
+      const prev = queryClient.getQueryData(QUERY_KEYS.profile);
+      queryClient.setQueryData(QUERY_KEYS.profile, (old) => ({
         ...old,
         user: { ...old?.user, ...newData },
       }));
       return { prev };
     },
     onError: (err, newData, context) => {
-      queryClient.setQueryData(["profile"], context.prev);
+      queryClient.setQueryData(QUERY_KEYS.profile, context.prev);
     },
     onSettled: () => {
-      queryClient.invalidateQueries(["profile"]);
+      queryClient.invalidateQueries(QUERY_KEYS.profile);
     },
   });
 
@@ -46,7 +47,12 @@ export default function Settings() {
       <h2>Tənzimləmələr</h2>
       <form onSubmit={handleSubmit((d) => mutation.mutate(d))}>
         <div>
-          <input {...register("name")} placeholder="Yeni ad" />
+          <label htmlFor="name">Ad</label>
+          <input
+            id="name"
+            {...register("name")}
+            placeholder="Yeni ad"
+          />
           {errors.name && <p style={{ color: "red" }}>{errors.name.message}</p>}
         </div>
         <button type="submit" disabled={mutation.isPending}>
