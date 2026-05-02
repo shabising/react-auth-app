@@ -6,93 +6,105 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f7fa;
-  color: #333;
+  background-color: #f4f4f8;
+  color: #1a1a2e;
   min-height: 100vh;
 }
 
-/* NAV */
+/* ── NAV ── */
 nav {
-  background-color: #1a1a2e;
+  background-color: #16213e;
   padding: 14px 32px;
   display: flex;
   align-items: center;
   gap: 20px;
   flex-wrap: wrap;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 nav a {
-  color: #e0e0e0;
+  color: #c8cde8;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 14px;
   transition: color 0.2s;
 }
 
 nav a:hover {
-  color: #7c83fd;
+  color: #a78bfa;
 }
 
 nav button {
-  background-color: #e74c3c;
+  background-color: #ef4444;
   color: white;
   border: none;
   padding: 6px 16px;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   transition: background 0.2s;
 }
 
 nav button:hover {
-  background-color: #c0392b;
+  background-color: #dc2626;
 }
 
-/* MAIN */
+/* ── LAYOUT ── */
 main {
   max-width: 800px;
   margin: 40px auto;
   padding: 0 20px;
 }
 
-/* CARD */
-.card {
-  background: white;
-  border-radius: 12px;
-  padding: 32px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+h1, h2 {
+  margin-bottom: 20px;
+  color: #1a1a2e;
+  font-weight: 500;
 }
 
-/* FORM */
+/* ── CARD ── */
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  border: 0.5px solid rgba(0,0,0,0.08);
+}
+
+/* ── FORM ── */
 form {
   background: white;
-  border-radius: 12px;
-  padding: 32px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 28px;
+  border: 0.5px solid rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 form label {
   display: block;
   margin-bottom: 6px;
-  font-weight: 600;
+  font-weight: 500;
   color: #555;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 form input,
 form textarea {
   width: 100%;
   padding: 10px 14px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 0.5px solid #d0d0d8;
+  border-radius: 10px;
   font-size: 15px;
-  transition: border 0.2s;
+  background-color: #f9f9fb;
+  transition: border-color 0.2s, box-shadow 0.2s;
   outline: none;
+  color: #1a1a2e;
 }
 
 form input:focus,
 form textarea:focus {
-  border-color: #7c83fd;
+  border-color: #a78bfa;
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.15);
+  background-color: white;
 }
 
 form textarea {
@@ -102,69 +114,65 @@ form textarea {
 form button[type="submit"] {
   width: 100%;
   padding: 12px;
-  background-color: #7c83fd;
+  background-color: #7c6fcd;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
   cursor: pointer;
   transition: background 0.2s;
-  margin-top: 8px;
+  margin-top: 4px;
 }
 
 form button[type="submit"]:hover {
-  background-color: #5a62e0;
+  background-color: #6356b8;
 }
 
 form button[type="submit"]:disabled {
-  background-color: #aaa;
+  background-color: #bbb;
   cursor: not-allowed;
 }
 
-/* SHOW/HIDE PASSWORD BUTTON */
 form .password-toggle {
-  background: #eee;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  background: #f0f0f4;
+  border: 0.5px solid #d0d0d8;
+  border-radius: 10px;
   padding: 10px 14px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
 }
 
-/* HEADINGS */
-h1, h2 {
-  margin-bottom: 20px;
-  color: #1a1a2e;
-}
-
-/* POST CARD */
+/* ── POST CARD ── */
 .post-card {
   background: white;
-  border-radius: 10px;
+  border-radius: 14px;
   padding: 20px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  transition: box-shadow 0.2s;
+  margin-bottom: 14px;
+  border: 0.5px solid rgba(0,0,0,0.08);
+  transition: border-color 0.2s;
 }
 
 .post-card:hover {
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  border-color: rgba(124, 111, 205, 0.4);
 }
 
 .post-card h3 a {
   text-decoration: none;
   color: #1a1a2e;
-  font-size: 18px;
+  font-size: 17px;
+  font-weight: 500;
 }
 
 .post-card h3 a:hover {
-  color: #7c83fd;
+  color: #7c6fcd;
 }
 
 .post-card p {
   color: #666;
   margin: 8px 0;
   line-height: 1.6;
+  font-size: 14px;
 }
 
 .post-card small {
@@ -172,64 +180,68 @@ h1, h2 {
   font-size: 12px;
 }
 
+/* ── DELETE BUTTON ── */
 .delete-btn {
   background: none;
-  border: 1px solid #e74c3c;
-  color: #e74c3c;
+  border: 0.5px solid #ef4444;
+  color: #ef4444;
   padding: 4px 12px;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 12px;
   transition: all 0.2s;
 }
 
 .delete-btn:hover {
-  background: #e74c3c;
+  background: #ef4444;
   color: white;
 }
 
-/* PROFILE */
+/* ── PROFILE ── */
 .profile-info p {
   padding: 12px 0;
-  border-bottom: 1px solid #f0f0f0;
-  font-size: 16px;
+  border-bottom: 0.5px solid #f0f0f0;
+  font-size: 15px;
 }
 
 .profile-info p strong {
-  color: #555;
+  color: #888;
+  font-weight: 500;
   margin-right: 8px;
+  font-size: 13px;
 }
 
-/* BUTTONS */
+/* ── BUTTONS ── */
 .btn-primary {
-  background-color: #7c83fd;
+  background-color: #7c6fcd;
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
+  padding: 10px 22px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 15px;
+  font-weight: 500;
   transition: background 0.2s;
 }
 
 .btn-primary:hover {
-  background-color: #5a62e0;
+  background-color: #6356b8;
 }
 
-/* ERROR & SUCCESS */
+/* ── MESSAGES ── */
 .error-text {
-  color: #e74c3c;
-  font-size: 13px;
+  color: #ef4444;
+  font-size: 12px;
   margin-top: 4px;
 }
 
 .success-text {
-  color: #27ae60;
-  font-size: 13px;
+  color: #22c55e;
+  font-size: 12px;
   margin-top: 4px;
 }
 
-/* NOT FOUND */
+/* ── 404 ── */
 .not-found {
   text-align: center;
   padding: 60px 20px;
@@ -237,10 +249,12 @@ h1, h2 {
 
 .not-found h1 {
   font-size: 72px;
-  color: #7c83fd;
+  font-weight: 500;
+  color: #7c6fcd;
 }
 
 .not-found p {
   color: #666;
   margin: 16px 0;
+  font-size: 16px;
 }
